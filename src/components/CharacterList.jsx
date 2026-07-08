@@ -1,11 +1,21 @@
 import { useFetch } from '../hooks/useFetch';
 import { getCharacters } from '../services/characters';
 
-function CharacterList({ searchTerm, favorites, onToggleFavorite }) {
+function CharacterList({
+  searchTerm,
+  favorites,
+  blockedCharacters,
+  onToggleFavorite,
+  onToggleBlockedCharacter,
+}) {
   const { data: characters, loading, error } = useFetch(() => getCharacters(), []);
 
-  const filteredCharacters = (characters || []).filter((character) =>
-    character.name.toLowerCase().includes(searchTerm.toLowerCase())
+  const blockedIds = new Set((blockedCharacters || []).map((character) => character.id));
+
+  const filteredCharacters = (characters || []).filter(
+    (character) =>
+      !blockedIds.has(character.id) &&
+      character.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   if (loading) {
@@ -31,6 +41,7 @@ function CharacterList({ searchTerm, favorites, onToggleFavorite }) {
         {filteredCharacters.length > 0 ? (
           filteredCharacters.map((character) => {
             const isFavorite = favorites.some((item) => item.id === character.id);
+            const isBlocked = blockedIds.has(character.id);
 
             return (
               <article key={character.id} className="character-card">
@@ -40,13 +51,22 @@ function CharacterList({ searchTerm, favorites, onToggleFavorite }) {
                   className="character-image"
                 />
                 <h3 className="character-name">{character.name}</h3>
-                <button
-                  type="button"
-                  className={`favorite-button ${isFavorite ? 'active' : ''}`}
-                  onClick={() => onToggleFavorite(character)}
-                >
-                  {isFavorite ? '★ Favorito' : '☆ Favorito'}
-                </button>
+                <div className="card-actions">
+                  <button
+                    type="button"
+                    className={`favorite-button ${isFavorite ? 'active' : ''}`}
+                    onClick={() => onToggleFavorite(character)}
+                  >
+                    {isFavorite ? '★ Favorito' : '☆ Favorito'}
+                  </button>
+                  <button
+                    type="button"
+                    className={`block-button ${isBlocked ? 'blocked' : ''}`}
+                    onClick={() => onToggleBlockedCharacter(character)}
+                  >
+                    {isBlocked ? 'Desbloquear' : 'Bloquear'}
+                  </button>
+                </div>
               </article>
             );
           })

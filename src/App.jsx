@@ -12,10 +12,26 @@ function App() {
     const savedFavorites = window.localStorage.getItem('favorites');
     return savedFavorites ? JSON.parse(savedFavorites) : [];
   });
+  const [blockedCharacters, setBlockedCharacters] = useState(() => {
+    const savedBlocked = window.localStorage.getItem('blockedCharacters');
+    return savedBlocked ? JSON.parse(savedBlocked) : [];
+  });
 
   useEffect(() => {
     window.localStorage.setItem('favorites', JSON.stringify(favorites));
   }, [favorites]);
+
+  useEffect(() => {
+    window.localStorage.setItem('blockedCharacters', JSON.stringify(blockedCharacters));
+  }, [blockedCharacters]);
+
+  useEffect(() => {
+    setFavorites((currentFavorites) =>
+      currentFavorites.filter(
+        (favorite) => !blockedCharacters.some((blocked) => blocked.id === favorite.id)
+      )
+    );
+  }, [blockedCharacters]);
 
   const toggleFavorite = (character) => {
     setFavorites((currentFavorites) => {
@@ -31,6 +47,18 @@ function App() {
 
   const removeFavorite = (id) => {
     setFavorites((currentFavorites) => currentFavorites.filter((item) => item.id !== id));
+  };
+
+  const toggleBlockedCharacter = (character) => {
+    setBlockedCharacters((currentBlocked) => {
+      const isBlocked = currentBlocked.some((item) => item.id === character.id);
+
+      if (isBlocked) {
+        return currentBlocked.filter((item) => item.id !== character.id);
+      }
+
+      return [...currentBlocked, character];
+    });
   };
 
   return (
@@ -61,7 +89,9 @@ function App() {
           <CharacterList
             searchTerm={searchTerm}
             favorites={favorites}
+            blockedCharacters={blockedCharacters}
             onToggleFavorite={toggleFavorite}
+            onToggleBlockedCharacter={toggleBlockedCharacter}
           />
         </section>
 
