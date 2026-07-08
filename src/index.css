@@ -58,6 +58,13 @@ body {
   margin-bottom: 1rem;
 }
 
+.app-layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
 .character-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -90,6 +97,21 @@ body {
   background: #f8fafc;
 }
 
+.favorite-button {
+  margin-top: 0.75rem;
+  border: none;
+  border-radius: 999px;
+  padding: 0.5rem 0.85rem;
+  cursor: pointer;
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.favorite-button.active {
+  background: #f59e0b;
+  color: white;
+}
+
 .character-image {
   width: 100%;
   border-radius: 10px;
@@ -98,6 +120,38 @@ body {
 
 .character-name {
   margin: 0.75rem 0 0;
+}
+
+.favorites-panel {
+  background: white;
+  border-radius: 16px;
+  padding: 1rem;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+}
+
+.favorites-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.favorite-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.favorite-item button {
+  border: none;
+  background: #ef4444;
+  color: white;
+  border-radius: 999px;
+  padding: 0.35rem 0.7rem;
+  cursor: pointer;
 }
 
 .header,

@@ -45,6 +45,7 @@ Este proyecto utiliza React y Vite para la interfaz de usuario. Para mostrar inf
 
 - Búsqueda en tiempo real de personajes por nombre desde la barra superior.
 - Listado dinámico de personajes consumidos desde la API pública de Rick and Morty.
+- Gestión de favoritos con botón en cada tarjeta y panel lateral.
 - Estados visuales de carga y error para mejorar la experiencia del usuario.
 
 ## Hook personalizado useFetch

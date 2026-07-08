@@ -1,7 +1,7 @@
 import { useFetch } from '../hooks/useFetch';
 import { getCharacters } from '../services/characters';
 
-function CharacterList({ searchTerm }) {
+function CharacterList({ searchTerm, favorites, onToggleFavorite }) {
   const { data: characters, loading, error } = useFetch(() => getCharacters(), []);
 
   const filteredCharacters = (characters || []).filter((character) =>
@@ -29,16 +29,27 @@ function CharacterList({ searchTerm }) {
       <h2>Personajes de Rick and Morty</h2>
       <div className="character-grid">
         {filteredCharacters.length > 0 ? (
-          filteredCharacters.map((character) => (
-            <article key={character.id} className="character-card">
-              <img
-                src={character.image}
-                alt={character.name}
-                className="character-image"
-              />
-              <h3 className="character-name">{character.name}</h3>
-            </article>
-          ))
+          filteredCharacters.map((character) => {
+            const isFavorite = favorites.some((item) => item.id === character.id);
+
+            return (
+              <article key={character.id} className="character-card">
+                <img
+                  src={character.image}
+                  alt={character.name}
+                  className="character-image"
+                />
+                <h3 className="character-name">{character.name}</h3>
+                <button
+                  type="button"
+                  className={`favorite-button ${isFavorite ? 'active' : ''}`}
+                  onClick={() => onToggleFavorite(character)}
+                >
+                  {isFavorite ? '★ Favorito' : '☆ Favorito'}
+                </button>
+              </article>
+            );
+          })
         ) : (
           <p className="status-box">No se encontraron personajes con ese nombre.</p>
         )}
