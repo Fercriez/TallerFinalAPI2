@@ -1,5 +1,6 @@
 import Header from './components/Header';
 import Footer from './components/Footer';
+import CharacterList from './components/CharacterList';
 import { useTeam } from './hooks/useTeam';
 
 function App() {
@@ -15,6 +16,10 @@ function App() {
           <p>
             Esta es una base limpia para construir una aplicación escalable con React y Vite.
           </p>
+        </section>
+
+        <section className="hero-card character-section">
+          <CharacterList />
         </section>
       </main>
 
