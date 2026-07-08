@@ -51,6 +51,23 @@ body {
   margin-top: 1rem;
 }
 
+.status-box {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.status-box.loading {
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.status-box.error {
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
 .character-card {
   border: 1px solid #e2e8f0;
   border-radius: 12px;

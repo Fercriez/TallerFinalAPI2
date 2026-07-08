@@ -1,39 +1,30 @@
-import { useEffect, useState } from 'react';
+import { useFetch } from '../hooks/useFetch';
 import { getCharacters } from '../services/characters';
 
 function CharacterList() {
-  const [characters, setCharacters] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-
-  useEffect(() => {
-    async function loadCharacters() {
-      try {
-        const data = await getCharacters();
-        setCharacters(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    loadCharacters();
-  }, []);
+  const { data: characters, loading, error } = useFetch(() => getCharacters(), []);
 
   if (loading) {
-    return <p>Cargando personajes...</p>;
+    return (
+      <div className="status-box loading" role="status">
+        <p>Cargando personajes...</p>
+      </div>
+    );
   }
 
   if (error) {
-    return <p>{error}</p>;
+    return (
+      <div className="status-box error" role="alert">
+        <p>{error}</p>
+      </div>
+    );
   }
 
   return (
     <section>
       <h2>Personajes de Rick and Morty</h2>
       <div className="character-grid">
-        {characters.map((character) => (
+        {characters?.map((character) => (
           <article key={character.id} className="character-card">
             <img
               src={character.image}
