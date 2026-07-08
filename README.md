@@ -41,6 +41,12 @@ src/
 
 Este proyecto utiliza React y Vite para la interfaz de usuario. Para mostrar información dinámica, consumimos la API pública de Rick and Morty desde la ruta de personajes, permitiendo listar los personajes con su imagen y nombre en una grilla.
 
+## Funcionalidades Principales
+
+- Búsqueda en tiempo real de personajes por nombre desde la barra superior.
+- Listado dinámico de personajes consumidos desde la API pública de Rick and Morty.
+- Estados visuales de carga y error para mejorar la experiencia del usuario.
+
 ## Hook personalizado useFetch
 
 El hook useFetch centraliza la lógica de carga de datos para cualquier solicitud asíncrona. Recibe una función que devuelve una promesa, gestiona los estados de loading, error y data, y evita repetir la misma estructura de useEffect en distintos componentes.

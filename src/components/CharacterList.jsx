@@ -1,8 +1,12 @@
 import { useFetch } from '../hooks/useFetch';
 import { getCharacters } from '../services/characters';
 
-function CharacterList() {
+function CharacterList({ searchTerm }) {
   const { data: characters, loading, error } = useFetch(() => getCharacters(), []);
+
+  const filteredCharacters = (characters || []).filter((character) =>
+    character.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   if (loading) {
     return (
@@ -24,16 +28,20 @@ function CharacterList() {
     <section>
       <h2>Personajes de Rick and Morty</h2>
       <div className="character-grid">
-        {characters?.map((character) => (
-          <article key={character.id} className="character-card">
-            <img
-              src={character.image}
-              alt={character.name}
-              className="character-image"
-            />
-            <h3 className="character-name">{character.name}</h3>
-          </article>
-        ))}
+        {filteredCharacters.length > 0 ? (
+          filteredCharacters.map((character) => (
+            <article key={character.id} className="character-card">
+              <img
+                src={character.image}
+                alt={character.name}
+                className="character-image"
+              />
+              <h3 className="character-name">{character.name}</h3>
+            </article>
+          ))
+        ) : (
+          <p className="status-box">No se encontraron personajes con ese nombre.</p>
+        )}
       </div>
     </section>
   );
