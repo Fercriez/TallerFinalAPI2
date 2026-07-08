@@ -33,9 +33,7 @@ src/
 
 ## Integrantes
 
-- Integrante 1
-- Integrante 2
-- Integrante 3
+- Fernando Olivares Pineda
 
 ## Tecnologías y Origen de Datos
 
@@ -47,6 +45,8 @@ Este proyecto utiliza React y Vite para la interfaz de usuario. Para mostrar inf
 - Listado dinámico de personajes consumidos desde la API pública de Rick and Morty.
 - Gestión de favoritos con botón en cada tarjeta y panel lateral.
 - Bloqueo de personajes desde cada tarjeta; los personajes bloqueados desaparecen de los resultados y, si estaban en favoritos, se eliminan automáticamente.
+- Panel superior de estadísticas con el total de personajes cargados, favoritos y bloqueados.
+- Diseño responsivo que se adapta a móvil, tablet y escritorio.
 - Estados visuales de carga y error para mejorar la experiencia del usuario.
 
 ## Hook personalizado useFetch
@@ -56,3 +56,7 @@ El hook useFetch centraliza la lógica de carga de datos para cualquier solicitu
 ### Manejo de errores
 
 Cuando la petición falla, el hook guarda un mensaje de error y el componente muestra un estado visual claro mediante un bloque de advertencia. Esto ayuda a que la interfaz informe al usuario sin romper la experiencia.
+
+## Hook personalizado useLocalStorage
+
+El hook useLocalStorage encapsula la lectura y escritura de datos en localStorage para que listas como favoritos y bloqueados sobrevivan a recargas de página. Además, permite inicializar el estado desde el almacenamiento del navegador y mantenerlo sincronizado de forma reactiva.

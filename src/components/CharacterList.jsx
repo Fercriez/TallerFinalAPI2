@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useFetch } from '../hooks/useFetch';
 import { getCharacters } from '../services/characters';
 
@@ -7,8 +8,15 @@ function CharacterList({
   blockedCharacters,
   onToggleFavorite,
   onToggleBlockedCharacter,
+  onLoadedCount,
 }) {
   const { data: characters, loading, error } = useFetch(() => getCharacters(), []);
+
+  useEffect(() => {
+    if (onLoadedCount) {
+      onLoadedCount(characters?.length ?? 0);
+    }
+  }, [characters, onLoadedCount]);
 
   const blockedIds = new Set((blockedCharacters || []).map((character) => character.id));
 

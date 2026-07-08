@@ -1,3 +1,3 @@
 export function useTeam() {
-  return ['Integrante 1', 'Integrante 2', 'Integrante 3'];
+  return ['Fernando Olivares Pineda'];
 }

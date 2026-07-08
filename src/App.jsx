@@ -3,27 +3,16 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import CharacterList from './components/CharacterList';
 import FavoritesPanel from './components/FavoritesPanel';
+import StatsPanel from './components/StatsPanel';
+import { useLocalStorage } from './hooks/useLocalStorage';
 import { useTeam } from './hooks/useTeam';
 
 function App() {
   const teamMembers = useTeam();
   const [searchTerm, setSearchTerm] = useState('');
-  const [favorites, setFavorites] = useState(() => {
-    const savedFavorites = window.localStorage.getItem('favorites');
-    return savedFavorites ? JSON.parse(savedFavorites) : [];
-  });
-  const [blockedCharacters, setBlockedCharacters] = useState(() => {
-    const savedBlocked = window.localStorage.getItem('blockedCharacters');
-    return savedBlocked ? JSON.parse(savedBlocked) : [];
-  });
-
-  useEffect(() => {
-    window.localStorage.setItem('favorites', JSON.stringify(favorites));
-  }, [favorites]);
-
-  useEffect(() => {
-    window.localStorage.setItem('blockedCharacters', JSON.stringify(blockedCharacters));
-  }, [blockedCharacters]);
+  const [favorites, setFavorites] = useLocalStorage('favorites', []);
+  const [blockedCharacters, setBlockedCharacters] = useLocalStorage('blockedCharacters', []);
+  const [totalLoaded, setTotalLoaded] = useState(0);
 
   useEffect(() => {
     setFavorites((currentFavorites) =>
@@ -65,15 +54,22 @@ function App() {
     <div className="app-shell">
       <Header title="Taller Final API 2" />
 
-      <main className="main-content app-layout">
-        <section className="hero-card">
+      <main className="main-content">
+        <StatsPanel
+          totalLoaded={totalLoaded}
+          favoritesCount={favorites.length}
+          blockedCount={blockedCharacters.length}
+        />
+
+        <section className="hero-card intro-card">
           <h2>Bienvenido al proyecto</h2>
           <p>
             Esta es una base limpia para construir una aplicación escalable con React y Vite.
           </p>
         </section>
 
-        <section className="hero-card character-section">
+        <section className="app-layout">
+          <section className="hero-card character-section">
           <label className="search-label" htmlFor="character-search">
             Buscar personaje
           </label>
@@ -92,10 +88,12 @@ function App() {
             blockedCharacters={blockedCharacters}
             onToggleFavorite={toggleFavorite}
             onToggleBlockedCharacter={toggleBlockedCharacter}
+            onLoadedCount={setTotalLoaded}
           />
         </section>
 
-        <FavoritesPanel favorites={favorites} onRemoveFavorite={removeFavorite} />
+          <FavoritesPanel favorites={favorites} onRemoveFavorite={removeFavorite} />
+        </section>
       </main>
 
       <Footer members={teamMembers} />
